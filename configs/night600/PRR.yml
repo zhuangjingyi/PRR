@@ -1,0 +1,74 @@
+MODEL:
+  PRETRAIN_PATH: 'vit_base_ics_cfs_lup.pth'
+  PRETRAIN_HW_RATIO: 2
+  METRIC_LOSS_TYPE: 'prr_triplet'   #change loss：prr_triplet; adasp; agw; triplet_bh; adaptive; robust
+  IF_LABELSMOOTH: 'off'
+  IF_WITH_CENTER: 'no'
+  NAME: 'transformer'
+  NO_MARGIN: True
+  DEVICE_ID: ('4')
+  TRANSFORMER_TYPE: 'vit_base_patch16_224_TransReID'
+  STRIDE_SIZE: [16, 16]
+  STEM_CONV: True
+  TRIPLET_LOSS_WEIGHT: 1.0
+  INTERACTION_INTERVAL: 20   #Frequency
+
+
+INPUT:
+  SIZE_TRAIN: [256, 128]
+  SIZE_TEST: [256, 128]
+  PROB: 0.5 # random horizontal flip
+  RE_PROB: 0.5 # random erasing
+  PADDING: 10
+  PIXEL_MEAN: [0.1315, 0.1268, 0.1209]
+  PIXEL_STD: [0.0954, 0.0954, 0.0888]
+
+DATASETS:
+  NAMES: ('night600')
+  ROOT_DIR: ('/media/jqzhu/941A7DD31A7DB33A/zjy/NightReID-zjy/data')
+
+DATALOADER:
+  SAMPLER: 'softmax_triplet'
+  NUM_INSTANCE: 4
+  NUM_WORKERS: 8
+
+SOLVER:
+  HARD_EXAMPLE_POS_K: 1   #s_pos
+  HARD_EXAMPLE_NEG_K: 1   #s_neg
+
+  OPTIMIZER_NAME: 'SGD'
+  MAX_EPOCHS: 120
+  BASE_LR: 0.0004
+  WARMUP_EPOCHS: 20
+  IMS_PER_BATCH: 64
+  WARMUP_METHOD: 'cosine'
+  LARGE_FC_LR: False
+  CHECKPOINT_PERIOD: 120   #120
+  LOG_PERIOD: 50
+  EVAL_PERIOD: 10
+  WEIGHT_DECAY:  1e-4
+  WEIGHT_DECAY_BIAS: 1e-4
+  BIAS_LR_FACTOR: 2
+
+TEST:
+  EVAL: True
+  IMS_PER_BATCH: 64
+  RE_RANKING: False
+  # WEIGHT: './0628/3nightreid/528wD/transformer_best_mAP.pth'
+  NECK_FEAT: 'before'
+  FEAT_NORM: 'yes'
+  TEST_EPOCHS: best_mAP
+
+OUTPUT_DIR: './0718_complex_enet/baseline_600'
+
+# python train.py --config_file configs/night600/PRR.yml
+# python test.py --config_file configs/night600/PRR.yml
+# python test.py --config_file configs/night600/PRR.yml --vis   #vis_rank匹配图可视化命令
+# python test.py --config_file configs/night600/PRR.yml --tsne --vis  #tsne可视化命令
+
+# python test_baseline.py --config_file configs/night600/PRR.yml
+# python test_1vit_x.py --config_file configs/night600/PRR.yml
+# python test_1vit_y.py --config_file configs/night600/PRR.yml
+# python test_2vit_worelight.py --config_file configs/night600/PRR.yml
+# python train_2vit_worelight.py --config_file configs/night600/PRR.yml
+# conda activate /media/jqzhu/APE/DUSTBIN/OTHERS/Anaconda/envs/Night-ReID
