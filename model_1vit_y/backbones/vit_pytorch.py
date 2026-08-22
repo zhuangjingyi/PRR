@@ -135,51 +135,12 @@ class Attention(nn.Module):
 
         self.proj = nn.Linear(dim, dim)
         self.proj_drop = nn.Dropout(proj_drop)
-        # self.aid = nn.Sequential(
-        #     DropPath(0.2),
-        #     nn.Linear(dim,dim//2),
-        #     nn.ReLU(),
-        #     nn.Linear(dim//2, dim//2),
-        #     nn.ReLU(),
-        #     nn.Linear(dim//2,dim),
-        #     nn.Sigmoid()
-        # )
         self.aid = nn.Sequential(
             nn.Linear(dim, dim)
         )
         nn.init.constant_(self.aid[-1].weight,0.0)
         nn.init.constant_(self.aid[-1].bias,0.0)
-        # self.aid_drop = nn.Dropout(0.5)
-        
-    # #position
-    # def forward(self, x, a=None):
-    #     B, N, C = x.shape
-    #     qkv = self.qkv(x).reshape(B, N, 3, self.num_heads, C // self.num_heads).permute(2, 0, 3, 1, 4)
-    #     q, k, v = qkv[0], qkv[1], qkv[2]  # make torchscript happy (cannot use tensor as tuple)
 
-    #     if a is not None:
-    #         a = self.aid(a).view(B,N,self.num_heads, C // self.num_heads).permute(0,2,1,3)
-    #         # mq = (q @ a.transpose(-2, -1))
-    #         # m = torch.mean(mq, dim=-1, keepdim=True).softmax(dim=2)
-    #         # q = q + m * q
-
-    #         # mk = (q @ a.transpose(-2, -1))
-    #         # m = torch.mean(mk, dim=-1, keepdim=True).softmax(dim=2)
-    #         # k = k + m * k
-
-    #         mv = (q @ a.transpose(-2, -1))
-    #         m = torch.mean(mv, dim=-1, keepdim=True).softmax(dim=2)
-    #         v = v + m * v
-            
-    #     attn = (q @ k.transpose(-2, -1) ) * self.scale
-    #     attn = attn.softmax(dim=-1)
-    #     attn = self.attn_drop(attn)
-    #     x = (attn @ v).transpose(1, 2).reshape(B, N, C)
-    #     x = self.proj(x)
-    #     x = self.proj_drop(x)
-    #     return x
-
-    #sota version
     def forward(self, x, a=None):
         B, N, C = x.shape
         qkv = self.qkv(x).reshape(B, N, 3, self.num_heads, C // self.num_heads).permute(2, 0, 3, 1, 4)

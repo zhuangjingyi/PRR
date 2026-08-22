@@ -7,7 +7,6 @@ from timm.data.random_erasing import RandomErasing
 from .sampler import RandomIdentitySampler, RandomIdentitySampler_IdUniform
 from .night600 import Night600
 from .nightreid import NightReID
-from .RGBNT201_RGB import RGBNT201_RGB
 from .sampler_ddp import RandomIdentitySampler_DDP
 import torch.distributed as dist
 from torchvision.transforms.functional import adjust_gamma
@@ -15,7 +14,6 @@ from torchvision.transforms.functional import adjust_gamma
 __factory = {
     'night600': Night600,
     'nightreid': NightReID,
-    'RGBNT201': RGBNT201_RGB,
 }
 
 def train_collate_fn(batch):

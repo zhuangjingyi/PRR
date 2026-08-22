@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from .backbones.vit_pytorch import vit_base_patch16_224_TransReID,vit_base_patch16_224_TransReID_Tail,vit_base_patch16_224_TransReID_Head,vit_base_patch16_224_TransReID_MultiTail
-from .IED import  JQZFeatEnHancer
+from .Enh import  JQZFeatEnHancer
 import torch.nn.functional as F
 
 def weights_init_kaiming(m):
@@ -110,12 +110,9 @@ class build_transformer(nn.Module):
 
         g, tail = self.enet(x)
 
-        # x = self.base_i_h(x, cam_label=cam_label, view_label=view_label)     #baseline
         x = self.base_i_h(x+tail, cam_label=cam_label, view_label=view_label)  # interaction
         y = self.base_d1_h(g, cam_label=cam_label, view_label=view_label)  # interaction
 
-
-        # global_feat_i = self.multi_tail(x)      #baseline_1vit
         global_feat_i = self.multi_tail(x,y)      #2vit
 
         feat_i = self.bottleneck_i(global_feat_i)

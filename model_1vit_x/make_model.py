@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from .backbones.vit_pytorch import vit_base_patch16_224_TransReID,vit_base_patch16_224_TransReID_Tail,vit_base_patch16_224_TransReID_Head,vit_base_patch16_224_TransReID_MultiTail
-from .IED import  JQZFeatEnHancer
+from .Enh import  JQZFeatEnHancer
 import torch.nn.functional as F
 
 def weights_init_kaiming(m):
