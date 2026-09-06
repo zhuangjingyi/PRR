@@ -1,6 +1,6 @@
 from utils.logger import setup_logger
 from datasets import make_dataloader
-from model_2vit_worelight import make_model
+from model_woRAQM import make_model
 from solver import make_optimizer, WarmupMultiStepLR
 from solver.scheduler_factory import create_scheduler
 from loss import make_loss

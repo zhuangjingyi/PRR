@@ -12,7 +12,7 @@ from thop import profile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from config import cfg
 # from model import make_model
-from model_2vit_worelight import make_model
+from model import make_model
 from datasets import make_dataloader
 
 

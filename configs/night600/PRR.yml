@@ -69,6 +69,6 @@ OUTPUT_DIR: './0718_complex_enet/baseline_600'
 # python test_baseline.py --config_file configs/night600/PRR.yml
 # python test_1vit_x.py --config_file configs/night600/PRR.yml
 # python test_1vit_y.py --config_file configs/night600/PRR.yml
-# python test_2vit_worelight.py --config_file configs/night600/PRR.yml
-# python train_2vit_worelight.py --config_file configs/night600/PRR.yml
+# python test_2vit_woPRR.py --config_file configs/night600/PRR.yml
+# python train_2vit_woPRR.py --config_file configs/night600/PRR.yml
 # conda activate /media/jqzhu/APE/DUSTBIN/OTHERS/Anaconda/envs/Night-ReID

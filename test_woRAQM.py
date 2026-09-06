@@ -2,7 +2,7 @@ import os
 from config import cfg
 import argparse
 from datasets import make_dataloader
-from model_2vit_worelight import make_model
+from model_woRAQM import make_model
 from processor import do_inference
 from utils.logger import setup_logger
 
