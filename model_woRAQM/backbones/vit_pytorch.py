@@ -836,13 +836,10 @@ class TransReID_MultiTail(nn.Module):
         self.d1_tail.load_param(model_path, hw_ratio=hw_ratio)
 
 
-    #baseline_2vit_wo relight---xyxy
     def forward(self, x, y):
         for i in range(len(self.d1_tail.blocks)):
-            y = self.d1_tail.blocks[i](y)
             x = self.i_tail.blocks[i](x)
-            # y = self.d1_tail.blocks[i](y)
-        # y = self.d1_tail.norm(y)[:,0]
+            y = self.d1_tail.blocks[i](y)
         x = self.i_tail.norm(x)[:,0]
         y = self.d1_tail.norm(y)[:,0]
 

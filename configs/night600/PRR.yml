@@ -66,9 +66,5 @@ OUTPUT_DIR: './0718_complex_enet/baseline_600'
 # python test.py --config_file configs/night600/PRR.yml --vis   #vis_rank匹配图可视化命令
 # python test.py --config_file configs/night600/PRR.yml --tsne --vis  #tsne可视化命令
 
-# python test_baseline.py --config_file configs/night600/PRR.yml
-# python test_1vit_x.py --config_file configs/night600/PRR.yml
-# python test_1vit_y.py --config_file configs/night600/PRR.yml
-# python test_2vit_woPRR.py --config_file configs/night600/PRR.yml
-# python train_2vit_woPRR.py --config_file configs/night600/PRR.yml
-# conda activate /media/jqzhu/APE/DUSTBIN/OTHERS/Anaconda/envs/Night-ReID
+# python test_woRAQM.py --config_file configs/nightreid/PRR.yml
+# python test_woPRR.py --config_file configs/nightreid/PRR.yml
