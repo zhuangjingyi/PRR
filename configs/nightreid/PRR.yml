@@ -6,7 +6,7 @@ MODEL:
   IF_WITH_CENTER: 'no'
   NAME: 'transformer'
   NO_MARGIN: True
-  DEVICE_ID: ('6')
+  DEVICE_ID: ('0')
   TRANSFORMER_TYPE: 'vit_base_patch16_224_TransReID'
   STRIDE_SIZE: [16, 16]
   STEM_CONV: True
@@ -40,7 +40,7 @@ SOLVER:
   MAX_EPOCHS: 120
   BASE_LR: 0.0004
   WARMUP_EPOCHS: 20
-  IMS_PER_BATCH: 64 #64
+  IMS_PER_BATCH: 64 
   WARMUP_METHOD: 'cosine'
   LARGE_FC_LR: False
   CHECKPOINT_PERIOD: 120
@@ -52,10 +52,10 @@ SOLVER:
 
 TEST:
   EVAL: True
-  IMS_PER_BATCH: 64   #64
+  IMS_PER_BATCH: 64   
   RE_RANKING: False
   NECK_FEAT: 'before'
   FEAT_NORM: 'yes'
   TEST_EPOCHS: best_mAP
 
-OUTPUT_DIR: './nightreid'
+OUTPUT_DIR: './output/nightreid'
