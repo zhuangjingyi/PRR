@@ -1,7 +1,7 @@
 MODEL:
   PRETRAIN_PATH: 'vit_base_ics_cfs_lup.pth'
   PRETRAIN_HW_RATIO: 2
-  METRIC_LOSS_TYPE: 'prr_triplet'   #change loss：prr_triplet; adasp; agw; triplet_bh; adaptive; robust
+  METRIC_LOSS_TYPE: 'prr_triplet'   
   IF_LABELSMOOTH: 'off'
   IF_WITH_CENTER: 'no'
   NAME: 'transformer'
@@ -11,7 +11,7 @@ MODEL:
   STRIDE_SIZE: [16, 16]
   STEM_CONV: True
   TRIPLET_LOSS_WEIGHT: 1.0
-  INTERACTION_INTERVAL: 20   #Frequency
+  INTERACTION_INTERVAL: 1   #Frequency
 
 INPUT:
   SIZE_TRAIN: [256, 128]
@@ -24,7 +24,7 @@ INPUT:
 
 DATASETS:
   NAMES: ('nightreid')
-  ROOT_DIR: ('/media/jqzhu/941A7DD31A7DB33A/zjy/NightReID-zjy/data')
+  ROOT_DIR: ('/your dataset root dir')
   EVAL_MODE: 528_wD   #528_woD;1000_wD;1000_woD
 
 DATALOADER:
@@ -54,18 +54,8 @@ TEST:
   EVAL: True
   IMS_PER_BATCH: 64   #64
   RE_RANKING: False
-  # WEIGHT: './0628/Interaction Layer/6-11/nightreid/528wD/transformer_best_mAP.pth'
   NECK_FEAT: 'before'
   FEAT_NORM: 'yes'
-#  TEST_EPOCHS: 110
   TEST_EPOCHS: best_mAP
 
-OUTPUT_DIR: './0718_complex_enet/baseline_nightreid'
-
-# python train.py --config_file configs/nightreid/PRR.yml
-# python test.py --config_file configs/nightreid/PRR.yml
-# python test.py --config_file configs/nightreid/PRR.yml --tsne  #tsne可视化命令
-# python test.py --config_file configs/nightreid/PRR.yml --vis   #vis_rank匹配图可视化命令
-
-# python test_woRAQM.py --config_file configs/nightreid/PRR.yml
-# python test_woPRR.py --config_file configs/nightreid/PRR.yml
+OUTPUT_DIR: './nightreid'
