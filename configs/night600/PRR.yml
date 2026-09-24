@@ -1,7 +1,7 @@
 MODEL:
   PRETRAIN_PATH: 'vit_base_ics_cfs_lup.pth'
   PRETRAIN_HW_RATIO: 2
-  METRIC_LOSS_TYPE: 'prr_triplet'   #change loss：prr_triplet; adasp; agw; triplet_bh; adaptive; robust
+  METRIC_LOSS_TYPE: 'prr_triplet'   
   IF_LABELSMOOTH: 'off'
   IF_WITH_CENTER: 'no'
   NAME: 'transformer'
@@ -11,7 +11,7 @@ MODEL:
   STRIDE_SIZE: [16, 16]
   STEM_CONV: True
   TRIPLET_LOSS_WEIGHT: 1.0
-  INTERACTION_INTERVAL: 20   #Frequency
+  INTERACTION_INTERVAL: 1   #Frequency
 
 
 INPUT:
@@ -25,7 +25,7 @@ INPUT:
 
 DATASETS:
   NAMES: ('night600')
-  ROOT_DIR: ('/media/jqzhu/941A7DD31A7DB33A/zjy/NightReID-zjy/data')
+  ROOT_DIR: ('/your dataset root dir')
 
 DATALOADER:
   SAMPLER: 'softmax_triplet'
@@ -33,8 +33,8 @@ DATALOADER:
   NUM_WORKERS: 8
 
 SOLVER:
-  HARD_EXAMPLE_POS_K: 1   #s_pos
-  HARD_EXAMPLE_NEG_K: 1   #s_neg
+  HARD_EXAMPLE_POS_K: 3   #s_pos
+  HARD_EXAMPLE_NEG_K: 7   #s_neg
 
   OPTIMIZER_NAME: 'SGD'
   MAX_EPOCHS: 120
@@ -43,7 +43,7 @@ SOLVER:
   IMS_PER_BATCH: 64
   WARMUP_METHOD: 'cosine'
   LARGE_FC_LR: False
-  CHECKPOINT_PERIOD: 120   #120
+  CHECKPOINT_PERIOD: 120   
   LOG_PERIOD: 50
   EVAL_PERIOD: 10
   WEIGHT_DECAY:  1e-4
@@ -54,17 +54,8 @@ TEST:
   EVAL: True
   IMS_PER_BATCH: 64
   RE_RANKING: False
-  # WEIGHT: './0628/3nightreid/528wD/transformer_best_mAP.pth'
   NECK_FEAT: 'before'
   FEAT_NORM: 'yes'
   TEST_EPOCHS: best_mAP
 
-OUTPUT_DIR: './0718_complex_enet/baseline_600'
-
-# python train.py --config_file configs/night600/PRR.yml
-# python test.py --config_file configs/night600/PRR.yml
-# python test.py --config_file configs/night600/PRR.yml --vis   #vis_rank匹配图可视化命令
-# python test.py --config_file configs/night600/PRR.yml --tsne --vis  #tsne可视化命令
-
-# python test_woRAQM.py --config_file configs/nightreid/PRR.yml
-# python test_woPRR.py --config_file configs/nightreid/PRR.yml
+OUTPUT_DIR: './night600'
