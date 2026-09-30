@@ -161,43 +161,51 @@ The default evaluation protocol is `528_wD`. To evaluate other protocols, change
 
 ## Ablation Studies
 
-We evaluate the contributions of RAQM and RHMT.
+We investigate the contributions of RAQM and RHMT.
 
 <p align="center">
-  <img src="./images/table3.png" alt="Ablation results" width="900">
+  <img src="./images/table3.png" alt="Ablation results on NightReID and Night600" width="900">
 </p>
 
-Select the evaluation script, checkpoint directory, and mining parameters according to the table below. Parameter pairs are written as `(K_pos, K_neg)`.
+The default YAML configurations are used unless stated otherwise. They correspond to the full PRRL model:
 
-| Row | Setting | Script | Checkpoint directory | NightReID | Night600 |
-| --- | --- | --- | --- | --- | --- |
-| 1 | Baseline&nbsp;without&nbsp;PRRL | `test_woRAQM.py` | `baseline_<dataset>/pos1_neg1` | (1, 1) | (1, 1) |
-| 2 | RAQM&nbsp;only | `test.py` | `s_pos_s_neg/<dataset>/pos1_neg1_Frequency1_Tri1.0_LossType_prr_triplet` | (1, 1) | (1, 1) |
-| 3 | RHMT&nbsp;only | `test_woRAQM.py` | `baseline_<dataset>/pos3_neg<K_neg>` | (3, 1) | (3, 7) |
-| 4 | Full&nbsp;PRRL | `test.py` | `s_pos_s_neg/<dataset>/pos3_neg<K_neg>_Frequency1_Tri1.0_LossType_prr_triplet` | (3, 1) | (3, 7) |
+- `MODEL.INTERACTION_INTERVAL=1`
+- NightReID: `K_pos=3`, `K_neg=1`
+- Night600: `K_pos=3`, `K_neg=7`
 
-All checkpoint directories are under `./logs/` and contain `transformer_best_mAP.pth`. Replace `<dataset>` with `nightreid` or `night600`, and `<K_neg>` with the corresponding value.
+Before evaluation, configure the dataset path, pretrained backbone path, and GPU ID in the corresponding YAML file. For NightReID, change `DATASETS.EVAL_MODE` to evaluate different protocols.
 
-Use the following command, updating the variables for the desired row. This example evaluates **Row 1 on Night600**:
+Removing RHMT refers to training with single hard-positive and hard-negative mining: `K_pos=1` and `K_neg=1`.
 
 ```bash
-DATASET=night600
-SCRIPT=test_woRAQM.py
-POS=1
-NEG=1
-WEIGHT_DIR="./logs/baseline_night600/pos1_neg1"
+# Row 1: Baseline without PRRL
+# NightReID
+python test_woPRR.py --config_file configs/nightreid/PRR.yml SOLVER.HARD_EXAMPLE_POS_K 1 SOLVER.HARD_EXAMPLE_NEG_K 1 TEST.WEIGHT "./logs/baseline_nightreid/pos1_neg1/transformer_best_mAP.pth"
 
-python "$SCRIPT" --config_file "configs/${DATASET}/PRR.yml" \
-  MODEL.INTERACTION_INTERVAL 1 \
-  SOLVER.HARD_EXAMPLE_POS_K "$POS" \
-  SOLVER.HARD_EXAMPLE_NEG_K "$NEG" \
-  TEST.WEIGHT "${WEIGHT_DIR}/transformer_best_mAP.pth"
+# Night600
+python test_woPRR.py --config_file configs/night600/PRR.yml SOLVER.HARD_EXAMPLE_POS_K 1 SOLVER.HARD_EXAMPLE_NEG_K 1 TEST.WEIGHT "./logs/baseline_night600/pos1_neg1/transformer_best_mAP.pth"
+
+# Row 2: RAQM Only
+# NightReID
+python test.py --config_file configs/nightreid/PRR.yml SOLVER.HARD_EXAMPLE_POS_K 1 SOLVER.HARD_EXAMPLE_NEG_K 1 TEST.WEIGHT "./logs/s_pos_s_neg/nightreid/pos1_neg1_Frequency1_Tri1.0_LossType_prr_triplet/transformer_best_mAP.pth"
+
+# Night600
+python test.py --config_file configs/night600/PRR.yml SOLVER.HARD_EXAMPLE_POS_K 1 SOLVER.HARD_EXAMPLE_NEG_K 1 TEST.WEIGHT "./logs/s_pos_s_neg/night600/pos1_neg1_Frequency1_Tri1.0_LossType_prr_triplet/transformer_best_mAP.pth"
+
+# Row 3: RHMT Only
+# NightReID
+python test_woRAQM.py --config_file configs/nightreid/PRR.yml TEST.WEIGHT "./logs/baseline_nightreid/pos3_neg1/transformer_best_mAP.pth"
+
+# Night600
+python test_woRAQM.py --config_file configs/night600/PRR.yml TEST.WEIGHT "./logs/baseline_night600/pos3_neg7/transformer_best_mAP.pth"
+
+# Row 4: Full PRRL
+# NightReID
+python test.py --config_file configs/nightreid/PRR.yml TEST.WEIGHT "./logs/s_pos_s_neg/nightreid/pos3_neg1_Frequency1_Tri1.0_LossType_prr_triplet/transformer_best_mAP.pth"
+
+# Night600
+python test.py --config_file configs/night600/PRR.yml TEST.WEIGHT "./logs/s_pos_s_neg/night600/pos3_neg7_Frequency1_Tri1.0_LossType_prr_triplet/transformer_best_mAP.pth"
 ```
-
-For NightReID, change `DATASETS.EVAL_MODE` in its YAML file to select `528_wD`, `528_woD`, `1000_wD`, or `1000_woD`.
-
-Each row requires its corresponding trained checkpoint; changing mining parameters only during testing does not reproduce a different training setting.
-
 
 ## Parameter Analysis
 
