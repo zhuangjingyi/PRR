@@ -180,10 +180,10 @@ Removing RHMT refers to training with single hard-positive and hard-negative min
 ```bash
 # Row 1: Baseline without PRRL
 # NightReID
-python test_woPRR.py --config_file configs/nightreid/PRR.yml SOLVER.HARD_EXAMPLE_POS_K 1 SOLVER.HARD_EXAMPLE_NEG_K 1 TEST.WEIGHT "./logs/baseline_nightreid/pos1_neg1/transformer_best_mAP.pth"
+python test_woRAQM.py --config_file configs/nightreid/PRR.yml SOLVER.HARD_EXAMPLE_POS_K 1 SOLVER.HARD_EXAMPLE_NEG_K 1 TEST.WEIGHT "./logs/baseline_nightreid/pos1_neg1/transformer_best_mAP.pth"
 
 # Night600
-python test_woPRR.py --config_file configs/night600/PRR.yml SOLVER.HARD_EXAMPLE_POS_K 1 SOLVER.HARD_EXAMPLE_NEG_K 1 TEST.WEIGHT "./logs/baseline_night600/pos1_neg1/transformer_best_mAP.pth"
+python test_woRAQM.py --config_file configs/night600/PRR.yml SOLVER.HARD_EXAMPLE_POS_K 1 SOLVER.HARD_EXAMPLE_NEG_K 1 TEST.WEIGHT "./logs/baseline_night600/pos1_neg1/transformer_best_mAP.pth"
 
 # Row 2: RAQM Only
 # NightReID
