@@ -7,7 +7,7 @@ Official PyTorch implementation of the paper **Progressive Relighting Representa
 
 ## Updates
 
-- (xx/9/2026) Code released!
+- (01/10/2026) Code released!
 
 ## Highlights
 
